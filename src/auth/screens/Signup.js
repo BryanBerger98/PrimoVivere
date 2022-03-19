@@ -1,11 +1,13 @@
-import { Text, View, SafeAreaView, TextInput, StyleSheet, Pressable, Switch, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard } from "react-native";
+import { Text, View, Button, TextInput, StyleSheet, Pressable, Switch, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard } from "react-native";
 import { useAuthContext } from "../context/AuthContext";
 import * as Yup from 'yup';
 import { Formik } from 'formik';
+import { useUserContext } from "../../account/context/UserContext";
 
 function Signup({ navigation }) {
 
     const authContext = useAuthContext();
+    const userContext = useUserContext();
 
     const SignupFormSchema = Yup.object().shape({
         email: Yup.string().email('Invalid email').required('Required'),
@@ -16,9 +18,7 @@ function Signup({ navigation }) {
 
     const onSubmitSignupForm = (values) => {
         authContext.signupUserWithEmailAndPassword(values.email, values.password)
-        .then((userCredential) => {
-            navigation.navigate('Home');
-        }).catch(error => {
+        .catch(error => {
             if (error.code === 'auth/email-already-in-use') {
                 return alert('A user is already registered with this email');
             }
@@ -29,7 +29,7 @@ function Signup({ navigation }) {
     return(
         <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === "ios" ? "padding" : "height"}>
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-                <View>
+                <View style={styles.formContainer}>
                     <Text style={styles.pageTitle}>Signup</Text>
                     <Formik
                     initialValues={{
@@ -45,15 +45,15 @@ function Signup({ navigation }) {
                             <View style={styles.formContainer}>
                                 <View style={styles.formGroup}>
                                     <Text style={styles.inputLabel}>Email address</Text>
-                                    <TextInput style={styles.textInput} textContentType={'emailAddress'} placeholder={'example@example.com'} placeholderTextColor="rgb(100, 116, 139)" onBlur={handleBlur('email')} onChangeText={handleChange('email')} value={values.email}/>
+                                    <TextInput style={styles.textInput} keyboardType='email-address' textContentType={'emailAddress'} placeholder={'example@example.com'} placeholderTextColor="rgb(100, 116, 139)" onBlur={handleBlur('email')} onChangeText={handleChange('email')} value={values.email}/>
                                 </View>
                                 <View style={styles.formGroup}>
                                     <Text style={styles.inputLabel}>Password</Text>
-                                    <TextInput style={styles.textInput} textContentType="newPassword" placeholder={'********'} placeholderTextColor="rgb(100, 116, 139)" onBlur={handleBlur('password')} onChangeText={handleChange('password')} value={values.password} />
+                                    <TextInput style={styles.textInput} textContentType="newPassword" secureTextEntry={true} placeholder={'********'} placeholderTextColor="rgb(100, 116, 139)" onBlur={handleBlur('password')} onChangeText={handleChange('password')} value={values.password} />
                                 </View>
                                 <View style={styles.formGroup}>
                                     <Text style={styles.inputLabel}>Confirm password</Text>
-                                    <TextInput style={styles.textInput} textContentType="newPassword" placeholder={'********'} placeholderTextColor="rgb(100, 116, 139)" onBlur={handleBlur('confirmPassword')} onChangeText={handleChange('confirmPassword')} value={values.confirmPassword} />
+                                    <TextInput style={styles.textInput} textContentType="newPassword" secureTextEntry={true} placeholder={'********'} placeholderTextColor="rgb(100, 116, 139)" onBlur={handleBlur('confirmPassword')} onChangeText={handleChange('confirmPassword')} value={values.confirmPassword} />
                                 </View>
                                 <View style={styles.checkboxContainer}>
                                     <Switch onValueChange={(v) => setFieldValue('termsCheck', v)} value={values.termsCheck} style={{marginRight: 10}} />
@@ -62,6 +62,7 @@ function Signup({ navigation }) {
                                 <Pressable style={styles.submitButton} onPress={handleSubmit}>
                                     <Text style={styles.submitButtonText}>Submit</Text>
                                 </Pressable>
+                                <Button title='Sign in' onPress={() => navigation.navigate('Sign in')}/>
                             </View>
                         )}
                     </Formik>
@@ -80,7 +81,7 @@ const styles = StyleSheet.create({
     },
     pageTitle: {
         textAlign: 'center',
-        marginVertical: 112,
+        marginVertical: 96,
         fontWeight: 'bold',
         fontSize: 36,
         color: 'rgb(248, 250, 252)'

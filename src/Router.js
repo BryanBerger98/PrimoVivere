@@ -5,6 +5,7 @@ import { Ionicons } from '@expo/vector-icons';
 
 import Home from './/home/screens/Home';
 import Signup from './auth/screens/Signup';
+import Signin from './auth/screens/Signin';
 import Account from './account/screens/Account';
 import { useAuthContext } from './auth/context/AuthContext';
 
@@ -27,7 +28,6 @@ const MyTheme = {
 export default function Router() {
 
     const authContext = useAuthContext();
-    console.log(authContext.currentUser);
 
     return(
         <NavigationContainer theme={MyTheme}>
@@ -55,12 +55,13 @@ export default function Router() {
                 }
                 })}
             >
-                <Tab.Screen name='Home' component={Home} />
-                <Tab.Screen name='Account' component={Account} />
+                <Tab.Screen name='Home' options={{tabBarLabel: 'Home', title: 'Primo Vivere'}} component={Home} />
+                <Tab.Screen name='Account' getComponent={() => require('./account/screens/Account').default} />
             </Tab.Navigator>
         :
             <Stack.Navigator>
                 <Stack.Screen name='Signup' component={Signup} />
+                <Stack.Screen name='Sign in' component={Signin} />
             </Stack.Navigator>
       }
       </NavigationContainer>
