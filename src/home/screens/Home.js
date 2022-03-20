@@ -1,4 +1,4 @@
-import { Button, ScrollView, View } from "react-native";
+import { Text, ScrollView, View } from "react-native";
 import { useEffect, useState } from 'react';
 import { days, months, useUserContext } from "../../account/context/UserContext";
 import { useAuthContext } from "../../auth/context/AuthContext";
@@ -53,11 +53,14 @@ function Home({navigation}) {
     return(
         <ScrollView>
             <View style={{margin: 20}}>
-                {userData && <DaysPass userData={userData} />}
-                {userData && <WeeksPass userData={userData} />}
-                {userData && <YearsPass userData={userData} />}
                 {userData && <LifeProgressBar userData={userData} />}
-                {userData && <MementoBoard userData={userData} />}
+                <Text style={{marginTop: 30, color: 'rgb(248, 250, 252)', fontFamily: 'Nunito_700Bold', fontSize: 20, marginBottom: 10}}>From your birth</Text>
+                <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
+                    {userData && <DaysPass userData={userData} />}
+                    {userData && <WeeksPass userData={userData} />}
+                    {userData && <YearsPass userData={userData} />}
+                </View>
+                {/* {userData && <MementoBoard userData={userData} />} */}
             </View>
             <BirthDayModal modalVisible={modalVisible} setModalVisible={setModalVisible} currentUser={authContext.currentUser} />
         </ScrollView>
