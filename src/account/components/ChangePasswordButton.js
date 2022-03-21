@@ -2,9 +2,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import React from 'react';
 import { Pressable, View, Text, StyleSheet } from 'react-native';
 
-export default function ChangePasswordButton() {
+export default function ChangePasswordButton({ onPress }) {
   return (
-    <Pressable style={styles.button}>
+    <Pressable style={styles.button} onPress={onPress}>
         <View style={{flexDirection: 'row', alignItems: 'center'}}>
             <FontAwesomeIcon icon={['far', 'key']} style={{color: '#F8FAFF'}} size={18} />
             <Text style={{color: '#F8FAFF', marginLeft: 10, fontSize: 16}}>Change password</Text>

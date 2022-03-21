@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View } from 'react-native';
 import { useAuthContext } from '../../auth/context/AuthContext';
 import EditProfileElementButton from '../components/EditProfileElementButton';
 import EditProfilePhoto from '../components/EditProfilePhoto';

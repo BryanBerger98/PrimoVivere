@@ -44,8 +44,8 @@ export default function EditProfileEmail({ navigation }) {
             >
                 {({handleChange, handleBlur, handleSubmit, values, setFieldValue}) => (
                     <View style={styles.formContainer}>
-                        <TextInput style={styles.input} keyboardType='email-address' textContentType={'emailAddress'} autoCapitalize='none' placeholder={'example@example.com'} placeholderTextColor="rgb(100, 116, 139)" onBlur={handleBlur('email')} onChangeText={handleChange('email')} value={values.email}/>
-                        <TextInput style={styles.input} textContentType="newPassword" secureTextEntry={true} placeholder={'********'} placeholderTextColor="rgb(100, 116, 139)" onBlur={handleBlur('password')} onChangeText={handleChange('password')} value={values.password} />
+                        <TextInput style={styles.input} keyboardType='email-address' textContentType={'emailAddress'} autoCapitalize='none' placeholder={'New email address'} placeholderTextColor="rgb(100, 116, 139)" onBlur={handleBlur('email')} onChangeText={handleChange('email')} value={values.email}/>
+                        <TextInput style={styles.input} textContentType="newPassword" secureTextEntry={true} placeholder={'Password'} placeholderTextColor="rgb(100, 116, 139)" onBlur={handleBlur('password')} onChangeText={handleChange('password')} value={values.password} />
                         <Button title='Save' onPress={handleSubmit}/>
                     </View>
                 )}
