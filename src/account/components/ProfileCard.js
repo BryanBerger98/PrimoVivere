@@ -8,8 +8,8 @@ export default function ProfileCard({ currentUser, userData }) {
     <View style={styles.card}>
         <View style={{flexDirection: 'row'}}>
             {
-                currentUser.photoUrl ?
-                <Image source={currentUser.photoUrl} style={styles.image} />
+                currentUser.photoURL ?
+                <Image source={{uri: currentUser.photoURL}} style={styles.image} />
                 : 
                 <View style={[styles.image, {flexDirection: 'row', justifyContent: 'center', alignItems: 'center', backgroundColor:'#1E293B'}]}>
                     <FontAwesomeIcon icon={['far', 'camera']} color='#F8FAFF' size={24}/>

@@ -25,48 +25,16 @@ const FilesContextProvider = props => {
 
     const uploadFile = useCallback(async (file, storagePath) => {
         try {
-            const blob = await new Promise((resolve, reject) => {
-                const xhr = new XMLHttpRequest();
-                xhr.onload = function() {
-                  resolve(xhr.response);
-                };
-                xhr.onerror = function(e) {
-                  console.error(e);
-                  reject(new TypeError('Network request failed'));
-                };
-                xhr.responseType = 'blob';
-                xhr.open('GET', uri, true);
-                xhr.send(null);
-            });
-            const metadata = {
-                contentType: file.type
-            };
+            const res = await fetch(file.uri);
+            const blob = await res.blob();
             const splittedFileUrl = file.uri.split('/');
-            const fileName = splittedFileUrl[splittedFileUrl.length + 1];
+            const fileName = splittedFileUrl[splittedFileUrl.length - 1];
             const storageRef = ref(storage, storagePath + fileName);
-            const uploadTask = uploadBytesResumable(storageRef, blob, metadata);
-            uploadTask.on('state_changed', 
-                (snapshot) => {
-                    const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                    setUploadingFile({
-                        ...uploadingFile,
-                        status: snapshot.state,
-                        progress,
-                        error: null,
-                        downloadURL: null
-                    });
-                },
-                (error) => {
-                    setUploadingFile({...uploadingFile, error});
-                    throw(error);
-                }, 
-                () => {
-                    getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-                        setUploadingFile({...uploadingFile, status:'over',  downloadURL});
-                        return {...uploadingFile, status:'over',  downloadURL};
-                    });
-                }
-            );
+            const uploadTask = uploadBytesResumable(storageRef, blob);
+            const snapshot = await uploadTask;
+            const downloadURL = await getDownloadURL(snapshot.ref);
+            setUploadingFile({...uploadingFile, status:'over',  downloadURL});
+            return {...uploadingFile, status:'over', downloadURL};
         } catch (error) {
             throw error;
         }

@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Pressable, Text, StyleSheet } from 'react-native';
+import { View, Pressable, Text, StyleSheet, Image } from 'react-native';
 // import { ImagePicker } from 'expo';
 import * as ImagePicker from 'expo-image-picker';
 import { useFilesContext } from '../../files/context/FilesContext';
@@ -17,8 +17,6 @@ export default function EditProfilePhoto({ currentUser }) {
             allowsMultipleSelection: false,
             aspect: [1, 1]
         });
-
-        console.log(result);
 
         if (!result.cancelled) {
             if (currentUser && currentUser.photoURL && currentUser.photoURL !== '') {
@@ -47,8 +45,8 @@ export default function EditProfilePhoto({ currentUser }) {
     <Pressable style={styles.card} onPress={_pickImage}>
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
                 {
-                    currentUser.photoUrl ?
-                    <Image source={currentUser.photoUrl} style={styles.image} />
+                    currentUser.photoURL ?
+                    <Image source={{uri: currentUser.photoURL}} style={styles.image} />
                     : 
                     <View style={[styles.image, {flexDirection: 'row', justifyContent: 'center', alignItems: 'center', backgroundColor:'#1E293B'}]}>
                         <FontAwesomeIcon icon={['far', 'camera']} color='#F8FAFF' size={16}/>
