@@ -13,7 +13,7 @@ export default function EditProfile({ navigation }) {
         <EditProfilePhoto currentUser={authContext.currentUser} />
         <EditProfileElementButton title={authContext.currentUser.displayName ? authContext.currentUser.displayName : 'Username'} screenToDisplay='EditUsername' navigation={navigation} />
         <EditProfileElementButton title={authContext.currentUser.email} screenToDisplay='EditEmail' navigation={navigation} />
-        <EditProfileElementButton title={authContext.currentUser.phoneNumber ? authContext.currentUser.phoneNumber : 'Phone number'} />
+        {/* <EditProfileElementButton title={authContext.currentUser.phoneNumber ? authContext.currentUser.phoneNumber : 'Phone number'} /> */}
     </View>
   )
 }
