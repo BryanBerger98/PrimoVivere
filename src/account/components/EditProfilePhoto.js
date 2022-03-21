@@ -54,7 +54,7 @@ export default function EditProfilePhoto({ currentUser }) {
                 }
                 <Text style={styles.label}>Change profile photo</Text>
             </View>
-            <FontAwesomeIcon icon={['far', 'chevron-right']} color='#F8FAFF' size={16}/>
+            <FontAwesomeIcon icon={['far', 'chevron-right']} color='#F8FAFF' size={13}/>
     </Pressable>
   );
 }
@@ -62,7 +62,8 @@ export default function EditProfilePhoto({ currentUser }) {
 const styles = StyleSheet.create({
     card: {
         backgroundColor: 'rgb(15, 23, 42)',
-        padding: 10,
+        paddingVertical: 10,
+        paddingHorizontal: 20,
         marginHorizontal: 20,
         marginTop: 20,
         marginBottom: 10,

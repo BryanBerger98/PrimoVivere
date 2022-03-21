@@ -43,7 +43,7 @@ function Signup({ navigation }) {
                             <View style={styles.formContainer}>
                                 <View style={styles.formGroup}>
                                     <Text style={styles.inputLabel}>Email address</Text>
-                                    <TextInput style={styles.textInput} keyboardType='email-address' textContentType={'emailAddress'} placeholder={'example@example.com'} placeholderTextColor="rgb(100, 116, 139)" onBlur={handleBlur('email')} onChangeText={handleChange('email')} value={values.email}/>
+                                    <TextInput style={styles.textInput} keyboardType='email-address' autoCapitalize='none' textContentType={'emailAddress'} placeholder={'example@example.com'} placeholderTextColor="rgb(100, 116, 139)" onBlur={handleBlur('email')} onChangeText={handleChange('email')} value={values.email}/>
                                 </View>
                                 <View style={styles.formGroup}>
                                     <Text style={styles.inputLabel}>Password</Text>
