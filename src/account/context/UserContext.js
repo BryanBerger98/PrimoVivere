@@ -47,6 +47,7 @@ const UserContextProvider = props => {
         try {
             const response = await getDoc(doc(db, 'users', userId));
             if (response.exists()) {
+                setCurrentUserData(response.data());
                 return response.data();
             } else {
                 return null;

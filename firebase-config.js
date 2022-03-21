@@ -4,13 +4,13 @@ import { getFirestore } from 'firebase/firestore';
 import { getStorage } from 'firebase/storage';
 
 const firebaseConfig = {
-    apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
-    authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
-    projectId: process.env.REACT_APP_FIREBASE_PROJECTID,
-    storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
-    messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDERID,
-    appId: process.env.REACT_APP_FIREBASE_APPID
-  };
+  apiKey: "AIzaSyAiBfscKPD4gnyePXxv1PebpU5DGv-fohg",
+  authDomain: "primo-vivere-tests.firebaseapp.com",
+  projectId: "primo-vivere-tests",
+  storageBucket: "primo-vivere-tests.appspot.com",
+  messagingSenderId: "379327751012",
+  appId: "1:379327751012:web:f6822609976ea63af35071"
+};
 
 const app = initializeApp(firebaseConfig);
 

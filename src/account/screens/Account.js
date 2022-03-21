@@ -12,7 +12,7 @@ const months = ['January', 'Febuary', 'March', 'April', 'May', 'June', 'July', '
 export default function Account({ navigation }) {
 
     const authContext = useAuthContext();
-    const userContext = useUserContext();
+    const { currentUserData } = useUserContext();
 
     const [userData, setUserData] = useState(null);
 
@@ -26,38 +26,33 @@ export default function Account({ navigation }) {
     }
 
     useEffect(() => {
-        if (authContext.currentUser) {
-            userContext.getUserData(authContext.currentUser.uid)
-            .then(data => {
-                if (data) {
-                    let newData = {...data};
-                    if (data.birthDate && data.birthDate.seconds) {
-                        const date = new Date(data.birthDate.seconds * 1000);
-                        const birthDate = {
-                            day: days[date.getDay()],
-                            date: date.getDate(),
-                            month: date.getMonth() + 1,
-                            monthStr: months[date.getMonth()],
-                            year: date.getFullYear()
-                        }
-                        newData = {...newData, birthDate};
-                    }
-                    setUserData(newData);
+        if (authContext.currentUser && currentUserData) {
+            let newData = {...currentUserData};
+            if (currentUserData.birthDate && currentUserData.birthDate.seconds) {
+                const date = new Date(currentUserData.birthDate.seconds * 1000);
+                const birthDate = {
+                    day: days[date.getDay()],
+                    date: date.getDate(),
+                    month: date.getMonth() + 1,
+                    monthStr: months[date.getMonth()],
+                    year: date.getFullYear()
                 }
-            }).catch(console.error);
+                newData = {...newData, birthDate};
+            }
+            setUserData(newData);
         }
-    }, [authContext, userContext, userData]);
+    }, []);
 
     return(
         <SafeAreaView>
-            {/* <Text style={styles.title}>Account</Text>
-            {userData && userData.birthDate && <Text style={styles.birthDate}>{`${userData.birthDate.day} ${userData.birthDate.date} ${userData.birthDate.monthStr} ${userData.birthDate.year}`}</Text>}
-            <Pressable style={styles.signoutButton} onPress={onSignout}>
-                <Text style={styles.signoutButtonText}>Signout</Text>
-            </Pressable> */}
+            {/* <Text style={styles.title}>Account</Text> */}
+            {/* {userData && userData.birthDate && <Text style={styles.birthDate}>{`${userData.birthDate.day} ${userData.birthDate.date} ${userData.birthDate.monthStr} ${userData.birthDate.year}`}</Text>} */}
             <ProfileCard currentUser={authContext.currentUser} userData={userData} />
             <EditProfileButton onPress={onNavigateToEditProfile} />
             <ChangePasswordButton />
+            <Pressable style={styles.signoutButton} onPress={onSignout}>
+                <Text style={styles.signoutButtonText}>Signout</Text>
+            </Pressable>
         </SafeAreaView>
     );
 
@@ -79,11 +74,11 @@ const styles = StyleSheet.create({
         marginVertical: 36
     },
     signoutButton: {
-
+        marginVertical: 20
     },
     signoutButtonText: {
         color: 'rgb(244,63, 94)',
         textAlign: 'center',
-        fontSize: 20
+        fontSize: 16
     }
 });

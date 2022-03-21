@@ -48,7 +48,7 @@ function Home({navigation}) {
                 }
             }).catch(console.error);
         }
-    }, [authContext, userContext, modalVisible]);
+    }, []);
 
     return(
         <ScrollView>
@@ -56,9 +56,9 @@ function Home({navigation}) {
                 {userData && <LifeProgressBar userData={userData} />}
                 <Text style={{marginTop: 30, color: 'rgb(248, 250, 252)', fontFamily: 'Nunito_700Bold', fontSize: 20, marginBottom: 10}}>From your birth</Text>
                 <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                    {userData && <DaysPass userData={userData} />}
-                    {userData && <WeeksPass userData={userData} />}
-                    {userData && <YearsPass userData={userData} />}
+                    {userData && userData.birthDate && <DaysPass userData={userData} />}
+                    {userData && userData.birthDate && <WeeksPass userData={userData} />}
+                    {userData && userData.birthDate && <YearsPass userData={userData} />}
                 </View>
                 {/* {userData && <MementoBoard userData={userData} />} */}
             </View>

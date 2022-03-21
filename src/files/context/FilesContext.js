@@ -23,17 +23,28 @@ const FilesContextProvider = props => {
         downloadURL: null
     });
 
-    const uploadFile = useCallback((file, storagePath) => {
-        return new Promise((resolve, reject) => {
+    const uploadFile = useCallback(async (file, storagePath) => {
+        try {
+            const blob = await new Promise((resolve, reject) => {
+                const xhr = new XMLHttpRequest();
+                xhr.onload = function() {
+                  resolve(xhr.response);
+                };
+                xhr.onerror = function(e) {
+                  console.error(e);
+                  reject(new TypeError('Network request failed'));
+                };
+                xhr.responseType = 'blob';
+                xhr.open('GET', uri, true);
+                xhr.send(null);
+            });
             const metadata = {
-                contentType: file.type,
-                customMetadata: {
-                    size: file.size.toString(),
-                    lastModified: new Date(file.lastModified).toISOString()
-                }
+                contentType: file.type
             };
-            const storageRef = ref(storage, storagePath + file.name);
-            const uploadTask = uploadBytesResumable(storageRef, file, metadata);
+            const splittedFileUrl = file.uri.split('/');
+            const fileName = splittedFileUrl[splittedFileUrl.length + 1];
+            const storageRef = ref(storage, storagePath + fileName);
+            const uploadTask = uploadBytesResumable(storageRef, blob, metadata);
             uploadTask.on('state_changed', 
                 (snapshot) => {
                     const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
@@ -47,16 +58,18 @@ const FilesContextProvider = props => {
                 },
                 (error) => {
                     setUploadingFile({...uploadingFile, error});
-                    reject(error);
+                    throw(error);
                 }, 
                 () => {
                     getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
                         setUploadingFile({...uploadingFile, status:'over',  downloadURL});
-                        resolve({...uploadingFile, status:'over',  downloadURL});
+                        return {...uploadingFile, status:'over',  downloadURL};
                     });
                 }
             );
-        });
+        } catch (error) {
+            throw error;
+        }
     }, [uploadingFile]);
 
     const deleteFile = useCallback(async (fileUrl) => {

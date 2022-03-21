@@ -2,12 +2,10 @@ import { Text, View, Button, TextInput, StyleSheet, Pressable, Switch, KeyboardA
 import { useAuthContext } from "../context/AuthContext";
 import * as Yup from 'yup';
 import { Formik } from 'formik';
-import { useUserContext } from "../../account/context/UserContext";
 
 function Signup({ navigation }) {
 
     const authContext = useAuthContext();
-    const userContext = useUserContext();
 
     const SignupFormSchema = Yup.object().shape({
         email: Yup.string().email('Invalid email').required('Required'),
