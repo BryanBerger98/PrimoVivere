@@ -6,6 +6,7 @@ import { far } from '@fortawesome/pro-regular-svg-icons';
 import { fas } from '@fortawesome/pro-solid-svg-icons';
 import { useFonts, Nunito_400Regular, Nunito_500Medium, Nunito_700Bold } from '@expo-google-fonts/nunito';
 import AppLoading from 'expo-app-loading';
+import FilesContextProvider from './src/files/context/FilesContext';
 
 library.add(far, fas);
 
@@ -22,7 +23,9 @@ export default function App() {
   return (
     <AuthContextProvider>
       <UserContextProvider>
-        <Router />
+        <FilesContextProvider>
+          <Router />
+        </FilesContextProvider>
       </UserContextProvider>
     </AuthContextProvider>
   );
