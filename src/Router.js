@@ -14,6 +14,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import TabHeader from './navigation/Tabs/TabHeader';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import AccountNavigator from './account/AccountNavigator';
+import HabitsNavigator from './habits/HabitsNavigator';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -65,7 +66,7 @@ export default function Router() {
                         tabBar={props => <TabBar {...props} />}
                     >
                         <Tab.Screen name='Home' options={{tabBarShowLabel: false, title: 'Primo Vivere'}} component={Home} />
-                        <Tab.Screen name='Habits' options={{tabBarShowLabel: false, title: 'Habits'}} component={Home} />
+                        <Tab.Screen name='Habits' options={{tabBarShowLabel: false, headerShown: false}} component={HabitsNavigator} />
                         <Tab.Screen name='Account' options={{tabBarShowLabel: false, headerShown: false}} component={AccountNavigator} />
                         {/* getComponent={() => require('./account/AccountNavigator').default} */}
                     </Tab.Navigator>
