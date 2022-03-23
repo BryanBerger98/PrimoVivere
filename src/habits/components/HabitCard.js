@@ -8,7 +8,7 @@ export default function HabitCard() {
     <View style={styles.container}>
         <View style={{flexDirection: 'row', alignItems: 'center', height: '100%'}}>
             <LinearGradient colors={['#E879F9', '#86198F']} start={{x: -0.2, y: 0.5}} end={{x: 0.5, y: 1.2}} style={{borderRadius: 10, height: 55, width: 55, flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
-                <FontAwesomeIcon icon={['far', 'face-sleeping']} size='24' color='#F8FAFF' />
+                <FontAwesomeIcon icon={['far', 'face-sleeping']} size={24} color='#F8FAFF' />
             </LinearGradient>
             <View style={{height: '100%', marginLeft: 20, flexDirection: 'column', justifyContent: 'space-between'}}>
                 <View>

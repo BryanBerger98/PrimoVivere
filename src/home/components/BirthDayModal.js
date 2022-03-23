@@ -1,8 +1,7 @@
 import React from 'react';
-import { SafeAreaView, StyleSheet, View, Modal, Pressable, Text, TextInput } from 'react-native';
+import { StyleSheet, View, Modal, Pressable, Text } from 'react-native';
 import DatePicker from 'react-native-date-picker';
 import { useState } from 'react';
-import { fr } from 'date-fns/locale'
 import { useUserContext } from '../../account/context/UserContext';
 
 export default function BirthDayModal({modalVisible, setModalVisible, currentUser}) {
@@ -12,7 +11,7 @@ export default function BirthDayModal({modalVisible, setModalVisible, currentUse
 
     const onSubmitBirthDate = async () => {
         try {
-            const userData = userContext.updateUserBirthDate(currentUser.uid, birthDate);
+            const userData = await userContext.updateUserBirthDate(currentUser.uid, birthDate);
             setModalVisible(!modalVisible);
         } catch (error) {
             console.error(error);
