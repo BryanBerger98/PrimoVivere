@@ -7,10 +7,11 @@ import * as Yup from 'yup';
 import { useHabitsContext } from '../context/HabitsContext';
 import { useAuthContext } from '../../auth/context/AuthContext';
 
-export default function EditHabit({ navigation }) {
+export default function EditHabit({ navigation, route }) {
 
     const habitsContext = useHabitsContext();
     const authContext = useAuthContext();
+    const [currentHabit, setCurrentHabit] = useState(null);
 
     const [isFrequencyPickerOpen, setIsFrequencyPickerOpen] = useState(false);
     const [isEveryPickerOpen, setIsEveryPickerOpen] = useState(false);
@@ -40,6 +41,10 @@ export default function EditHabit({ navigation }) {
         closePicker();
     }, []);
 
+    useEffect(() => {
+        setCurrentHabit(route.params && route.params.habit ? route.params.habit : null);
+    }, []);
+
     const habitFormSchema = Yup.object().shape({
         title: Yup.string(),
         notes: Yup.string(),
@@ -49,23 +54,37 @@ export default function EditHabit({ navigation }) {
     });
 
     const onSubmitHabitForm = (values) => {
-        habitsContext.createHabit(values, authContext.currentUser.uid)
-        .then(() => {
-            navigation.navigate('Habits', {screen: 'HabitsMain'});
-        }).catch(console.error);
+        if (route.params && route.params.habit) {
+
+            const newHabit = {
+                ...route.params.habit,
+                ...values
+            };
+            delete newHabit.id;
+            habitsContext.updateHabit(route.params.habit.id, newHabit)
+            .then(() => {
+                navigation.navigate('Habits', {screen: 'HabitsMain'});
+            }).catch(console.error);
+        } else {
+            habitsContext.createHabit(values, authContext.currentUser.uid)
+            .then(() => {
+                navigation.navigate('Habits', {screen: 'HabitsMain'});
+            }).catch(console.error);
+        }
     }
 
   return (
     <Formik
         initialValues={{
-            title: '',
-            notes: '',
-            control: '',
-            frequency: 'Daily',
-            every: '1 day'
+            title: currentHabit ? currentHabit.title : '',
+            notes: currentHabit ? currentHabit.notes : '',
+            control: currentHabit ? currentHabit.control : '',
+            frequency: currentHabit ? currentHabit.frequency : 'Daily',
+            every: currentHabit ? currentHabit.every : '1 day'
         }}
         validationSchema={habitFormSchema}
         onSubmit={onSubmitHabitForm}
+        enableReinitialize={true}
     >
         {({handleChange, handleBlur, handleSubmit, values, setFieldValue}) => (
             <View style={styles.centeredView}>
