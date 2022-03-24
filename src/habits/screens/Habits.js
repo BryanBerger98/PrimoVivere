@@ -1,22 +1,31 @@
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { SafeAreaView, ScrollView, View, Text, StyleSheet, Pressable } from 'react-native';
+import { useAuthContext } from '../../auth/context/AuthContext';
 import HabitCard from '../components/HabitCard';
+import { useHabitsContext } from '../context/HabitsContext';
 
 export default function Habits() {
+
+    const habitsContext = useHabitsContext();
+    const authContext = useAuthContext();
+    const [habits, setHabits] = useState([]);
+
+    useEffect(() => {
+        habitsContext.getHabits(authContext.currentUser.uid)
+        .then(data => {
+            setHabits(data);
+        }).catch(console.error);
+    }, []);
+
   return (
     <SafeAreaView style={styles.container}>
         <ScrollView style={styles.habitsContainer}>
-            <HabitCard />
-            <HabitCard />
-            <HabitCard />
-            <HabitCard />
-            <HabitCard />
-            <HabitCard />
-            <HabitCard />
-            <HabitCard />
-            <HabitCard />
-            <HabitCard />
+            {
+                habits.map(habit => (
+                    <HabitCard habit={habit} />
+                ))
+            }
         </ScrollView>
         <Pressable style={styles.addButton}>
             <FontAwesomeIcon icon={['far', 'plus']} size={24} color='#F8FAFF' />

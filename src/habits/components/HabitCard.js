@@ -3,7 +3,7 @@ import { View, Text, StyleSheet } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 
-export default function HabitCard() {
+export default function HabitCard({ habit }) {
   return (
     <View style={styles.container}>
         <View style={{flexDirection: 'row', alignItems: 'center', height: '100%'}}>
@@ -12,16 +12,16 @@ export default function HabitCard() {
             </LinearGradient>
             <View style={{height: '100%', marginLeft: 20, flexDirection: 'column', justifyContent: 'space-between'}}>
                 <View>
-                    <Text style={styles.title}>Pay off my sleep debt</Text>
-                    <View style={styles.descriptionContainer}>
+                    <Text style={styles.title}>{habit.title}</Text>
+                    {/* <View style={styles.descriptionContainer}>
                         <Text style={styles.description}>12/31/2022</Text>
                         <Text style={[styles.description, {marginLeft: 5}]}>6 habits linked</Text>
-                    </View>
+                    </View> */}
                 </View>
-                <View style={styles.tagsContainer}>
+                {/* <View style={styles.tagsContainer}>
                     <Text style={styles.tag}>#sleep</Text>
                     <Text style={styles.tag}>#lifestyle</Text>
-                </View>
+                </View> */}
             </View>
         </View>
         <FontAwesomeIcon icon={['far', 'chevron-right']} style={{color: '#F8FAFF'}} size={13} />

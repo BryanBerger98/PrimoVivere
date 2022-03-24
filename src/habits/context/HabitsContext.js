@@ -1,5 +1,5 @@
 import { createContext, useCallback, useContext, useMemo, useState } from 'react';
-import { doc, setDoc, updateDoc, getDoc } from 'firebase/firestore';
+import { doc, setDoc, updateDoc, getDoc, addDoc, collection, query, where, getDocs, documentId } from 'firebase/firestore';
 import { db } from '../../../firebase-config';
 
 export const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thirsday', 'Friday', 'Saturday'];
@@ -21,9 +21,9 @@ const HabitsContextProvider = props => {
 
     const [habitsData, setHabitsData] = useState([]);
 
-    const createHabit = useCallback(async (habit) => {
+    const createHabit = useCallback(async (habit, userId) => {
         try {
-            const response = await setDoc(doc(db, 'habits'), habit);
+            const response = await addDoc(collection(db, 'habits'), {...habit, createdBy: userId, createdOn: new Date()});
             return response;
         } catch (error) {
             throw error;
@@ -43,13 +43,10 @@ const HabitsContextProvider = props => {
 
     const getHabits = useCallback(async (userId) => {
         try {
-            const response = await getDoc(doc(db, 'habits', userId));
-            if (response.exists()) {
-                // setCurrentUserData(response.data());
-                return response.data();
-            } else {
-                return null;
-            }
+            const response = await getDocs(query(collection(db, 'habits'), where('createdBy', '==', userId)));
+            const data = [];
+            response.forEach(doc => data.push({id: doc.id, ...doc.data()}));
+            return data;
         } catch (error) {
             throw error;
         }

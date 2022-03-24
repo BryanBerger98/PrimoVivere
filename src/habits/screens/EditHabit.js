@@ -4,8 +4,13 @@ import { View, Text, TextInput, StyleSheet, Pressable, Button } from 'react-nati
 import { Picker } from '@react-native-picker/picker';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
+import { useHabitsContext } from '../context/HabitsContext';
+import { useAuthContext } from '../../auth/context/AuthContext';
 
-export default function EditHabit() {
+export default function EditHabit({ navigation }) {
+
+    const habitsContext = useHabitsContext();
+    const authContext = useAuthContext();
 
     const [isFrequencyPickerOpen, setIsFrequencyPickerOpen] = useState(false);
     const [isEveryPickerOpen, setIsEveryPickerOpen] = useState(false);
@@ -22,7 +27,6 @@ export default function EditHabit() {
     }
 
     const togglePicker = (pickerRef) => {
-        console.log('TOGGLE', pickerRef);
         if (pickerRef === 'frequencyPicker') {
             setIsFrequencyPickerOpen(!isFrequencyPickerOpen);
             closePicker('everyPicker');
@@ -45,7 +49,10 @@ export default function EditHabit() {
     });
 
     const onSubmitHabitForm = (values) => {
-        console.log(values);
+        habitsContext.createHabit(values, authContext.currentUser.uid)
+        .then(() => {
+            navigation.navigate('Habits', {screen: 'HabitsMain'});
+        }).catch(console.error);
     }
 
   return (
